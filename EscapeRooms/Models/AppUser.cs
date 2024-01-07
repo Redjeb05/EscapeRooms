@@ -1,0 +1,18 @@
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace EscapeRooms.Models
+{
+        public class AppUser : IdentityUser
+        {
+            public AppUser()
+            {
+                Reservations = new List<Reservation>();
+            }
+
+            public int Id { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Phone { get; set; }
+            public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+        }
+    }
