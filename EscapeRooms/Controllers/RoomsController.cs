@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EscapeRooms.Data;
 using EscapeRooms.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EscapeRooms.Controllers
 {
+    [Authorize]
     public class RoomsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,6 +22,7 @@ namespace EscapeRooms.Controllers
         }
 
         // GET: Rooms
+        
         public async Task<IActionResult> Index()
         {
               return _context.Room != null ? 

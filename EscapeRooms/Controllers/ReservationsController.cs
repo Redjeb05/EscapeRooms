@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EscapeRooms.Data;
 using EscapeRooms.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EscapeRooms.Controllers
 {
+    [Authorize]
     public class ReservationsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -48,7 +50,7 @@ namespace EscapeRooms.Controllers
         // GET: Reservations/Create
         public IActionResult Create()
         {
-            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id");
+            ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Name");
             return View();
         }
 
