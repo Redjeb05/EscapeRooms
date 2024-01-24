@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace EscapeRooms.Controllers
 {
     [Authorize]
+
     public class ReservationsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -61,11 +62,18 @@ namespace EscapeRooms.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,DateTime,Description,RoomId")] Reservation reservation)
         {
-            if (ModelState.IsValid)
+            bool roomIsTaken = _context.Reservation.Any(r => r.RoomId == reservation.RoomId && r.DateTime.Date == reservation.DateTime.Date);
+
+            if (ModelState.IsValid && !roomIsTaken)
+
             {
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            else if (roomIsTaken)
+            {
+                ModelState.AddModelError("DateTime", "Room is already taken at this time.");
             }
             ViewData["RoomId"] = new SelectList(_context.Room, "Id", "Id", reservation.RoomId);
             return View(reservation);
